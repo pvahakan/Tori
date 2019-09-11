@@ -1,3 +1,7 @@
 #!/usr/bin/env python3
 
-print("Hello world")
+from Tori import *
+
+if __name__ == '__main__':
+    haku = Tori(location='Pohjois-Pohjanmaa', category='urheilu ja ulkoilu')
+    print(haku.find_category_codes())
