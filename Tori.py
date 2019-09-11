@@ -11,7 +11,7 @@ class Tori:
         return self.keyword + " " + " " + self.category + " " + " " + self.location
 
 
-    def find_category_codes(self, PRINT=False):
+    def find_category_code(self, PRINT=False):
         """
         Finds category HTML-<option> value by its name.
 
@@ -20,8 +20,7 @@ class Tori:
 
         Returns code of category and None if category not found.
         """
-        url = "https://www.tori.fi/"
-        response = requests.get(url)
+        response = requests.get('https://www.tori.fi/')
         content = response.content
         soup = BeautifulSoup(content, 'html.parser')
         category_input = soup.find_all('select', id='catgroup') # kategoria
@@ -36,3 +35,19 @@ class Tori:
                     return i['value']
 
         return None
+
+
+    def create_url(self):
+        """
+        Creates url for keyword, location and category.
+
+        url:ssa w=1: kyseinen maakunta, w=2 viereiset maakunnat, w=3 koko Suomi
+        """
+        tarkistus_url = "https://www.tori.fi/pohjois-pohjanmaa?q=&cg=4010&w=1&st=s&st=k&st=g&c=4027&ps=&pe=&ca=2&l=0&md=th"
+
+        self.url = 'https://www.tori.fi/'
+        self.url += self.location.lower() + '?'
+        self.url += 'q=' + self.keyword.lower() + '&'
+        self.url += 'cg=' + Tori.find_category_code(self) + '&'
+        self.url += 'w=1&st=s&st=k&st=g&c=4027&ps=&pe=&ca=2&l=0&md=th'
+
